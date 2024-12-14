@@ -1,36 +1,9 @@
 import Button from "./Button";
 import "./Editor.css"
 import EmotionItem from "./EmotionItem";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-const emotionList = [
-    {
-        emotionId : 1,
-        emotionName: "완전좋음",
-
-    },
-    {
-        emotionId : 2,
-        emotionName: "좋음",
-
-    },
-    {
-        emotionId : 3,
-        emotionName: "그럭저럭",
-
-    },
-    {
-        emotionId : 4,
-        emotionName: "나쁨",
-
-    },
-    {
-        emotionId : 5,
-        emotionName: "완전나쁨",
-
-    },
-];
+import { getEmotionList } from "../util/constants"
 
 const getStringedDate = (targetDate) => {
     let year = targetDate.getFullYear();
@@ -49,12 +22,21 @@ const getStringedDate = (targetDate) => {
 
 }
 
-const Editor = ({ onSubmit }) => {
+const Editor = ({ initData, onSubmit }) => {
     const [input, setInput] = useState({
         createdDate : new Date(),
         emotionId: 3,
         content: "",
     });
+
+    useEffect(() => {
+        if (initData) {
+            setInput({
+                ...initData,
+                createdDate: new Date(Number(initData.createdDate))
+            })
+        }
+    }, [initData]);
 
     const nav = useNavigate();
 
@@ -88,7 +70,7 @@ const Editor = ({ onSubmit }) => {
             <section className="emotion_section">
                 <h4>오늘의 감정</h4>
                 <div className="emotion_list_wrapper">
-                    {emotionList.map((item) => <EmotionItem 
+                    {getEmotionList.map((item) => <EmotionItem 
                     onClick={() => onChangeInput({
                         target: {
                             name: "emotionId",
@@ -114,4 +96,4 @@ const Editor = ({ onSubmit }) => {
     );
 }
 
-export default Editor;
+export default Editor;1
