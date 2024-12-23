@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
-import { useSearchParams } from "react-router-dom"; // for QueryString
+//import { useSearchParams } from "react-router-dom"; // for QueryString
 import { DiaryStateContext } from "../App";
 import Header from "../components/Header"
 import Button from "../components/Button"
 import DiaryList from "../components/DiaryList";
+import usePageTitle from "../hooks/usePageTitle";
 
 const getMonthlyData = (pivotDate ,data) => {
     const beginTime = new Date(pivotDate.getFullYear(), pivotDate.getMonth(), 1, 0, 0, 0).getTime();
@@ -16,12 +17,12 @@ const Home = () => {
     //const [paramz, setParams] = useSearchParams();
     //paramz.get("value");
     // QueryString not used
-
-
+    
     const data = useContext(DiaryStateContext);
     const [pivotDate, setPivotDate] = useState(new Date());
-
     const monthlyData = getMonthlyData(pivotDate, data);
+    
+    usePageTitle("감정 일기장")
     
     const onIncreaseMonth = () => {
         setPivotDate(new Date(pivotDate.getFullYear(), pivotDate.getMonth() + 1));
